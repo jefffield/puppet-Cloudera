@@ -9,3 +9,10 @@
 # Learn more about module testing here: http://docs.puppetlabs.com/guides/tests_smoke.html
 #
 include cdh3
+include cdh3::ganglia
+include cdh3::hbase
+include cdh3::hdfs
+include cdh3::hive
+include cdh3::hue
+include cdh3::pig
+include cdh3::zookeeper

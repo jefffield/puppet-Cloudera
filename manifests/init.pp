@@ -36,6 +36,7 @@
 # Copyright 2013 Your name here, unless otherwise noted.
 #
 class cdh3 {
-
-
+  notify { 'derp':
+    message => 'derp',
+  }
 }
