@@ -1,3 +1,0 @@
-name 'Ganglia'
-version '1.0.0'
-dependency 'common', '1.0.0'
