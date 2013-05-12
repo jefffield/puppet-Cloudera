@@ -1,11 +1,4 @@
-class hue::plugins {
-  package { 'hue-plugins':
-    ensure => installed,
-    name   => 'hue-plugins',
-  }
-}
-
-class hue::server {
+class cdh3::hue::server {
 
   $mysql_driver_version='5.1.14'
 
@@ -25,8 +18,4 @@ class hue::server {
     content => template('hue/hue-beeswax.ini.erb'),
     require => Package['hue'],
   }
-
-
-
-
 }
