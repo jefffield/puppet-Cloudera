@@ -1,7 +1,7 @@
 # /etc/puppet/modules/hbase/manifests/init.pp
 
 class cdh3::hbase {
-  include hdfs::common
+  include cdh3::hadoop
 
   package {'hbase-common':
     ensure => installed,

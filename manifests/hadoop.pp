@@ -30,7 +30,7 @@ Usage:
     #creating hdfs config directory and pointing alternative to it
     file { 'conf':
       ensure => directory,
-      path   => ${::conf_path},
+      path   => $::conf_path,
       owner  => root,
       group  => root,
       mode   => '0755',
@@ -155,81 +155,81 @@ Usage:
       source  => 'puppet:///hdfs/taskcontroller.cfg',
     }
     #adding lzo library support for hdfs
-    file { 'hadoop-lzo-jar':
-      path    => "${lib_path}/lib/hadoop-lzo.jar",
-      owner   => root,
-      group   => root,
-      mode    => '0644',
-      source  => "puppet:///hdfs/hadoop-lzo/hadoop-lzo-${lzo_version}.jar",
-      require => Package['hadoop-common'],
-    }
-    file { 'libgplcompression.a':
-      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.a",
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      source  => "puppet:///hdfs/hadoop-lzo/native-${lzo_version}/Linux-amd64-64/libgplcompression.a",
-      require => Package['hadoop-common'],
+    #    file { 'hadoop-lzo-jar':
+    #      path    => "${lib_path}/lib/hadoop-lzo.jar",
+    #      owner   => root,
+    #      group   => root,
+    #      mode    => '0644',
+    #      source  => "puppet:///hdfs/hadoop-lzo/hadoop-lzo-${lzo_version}.jar",
+    #      require => Package['hadoop-common'],
+    #    }
+    #    file { 'libgplcompression.a':
+    #      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.a",
+    #      owner   => root,
+    #      group   => root,
+    #      mode    => '0755',
+    #      source  => "puppet:///hdfs/hadoop-lzo/native-${lzo_version}/Linux-amd64-64/libgplcompression.a",
+    #      require => Package['hadoop-common'],
+    #    }
+    #
+    #    file {'libgplcompression.la':
+    #      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.la",
+    #      owner   => root,
+    #      group   => root,
+    #      mode    => '0755',
+    #      source  => "puppet:///hdfs/hadoop-lzo/native-${lzo_version}/Linux-amd64-64/libgplcompression.la",
+    #      require => Package['hadoop-common'],
+    #    }
+    #
+    #    file { 'libgplcompression.so.0.0.0':
+    #      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0.0.0",
+    #      owner   => root,
+    #      group   => root,
+    #      mode    => '0755',
+    #      source  => "puppet:///hdfs/hadoop-lzo/native-${lzo_version}/Linux-amd64-64/libgplcompression.so.0.0.0",
+    #      require => Package['hadoop-common'],
+    #    }
+    #
+    #    file {'libgplcompression.so.0':
+    #      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0",
+    #      ensure  => symlink,
+    #      target  => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0.0.0",
+    #      require => Package['hadoop-common'],
+    #    }
+    #
+    #    file {'libgplcompression.so':
+    #      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so",
+    #      ensure  => symlink,
+    #      target  => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0.0.0",
+    #      require => Package['hadoop-common'],
+    #    }
+    #  }
+    #creating data directories for data nodes. $name opens a list of directory names
+    define cdh3::hadoop::datadirs() {
+      file { $name:
+        ensure => directory,
+        path   => $name,
+        owner  => hdfs,
+        group  => hadoop,
+        mode   => '0700',
+      }
+      exec {"mkdir -p ${name}":
+        refreshonly => true,
+        subscribe   => File[$name],
+      }
     }
 
-    file {'libgplcompression.la':
-      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.la",
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      source  => "puppet:///hdfs/hadoop-lzo/native-${lzo_version}/Linux-amd64-64/libgplcompression.la",
-      require => Package['hadoop-common'],
+    #creating mapred temp directories on data nodes. $name opens a list of directory names
+    define cdh3::hadoop::mapreddirs() {
+      file {"${name}":
+        ensure => directory,
+        path   => "${name}",
+        owner  => mapred,
+        group  => hadoop,
+        mode   => '0755',
+      }
+      exec {"mkdir -p ${name}":
+        refreshonly => true,
+        subscribe   => File["${name}"],
+      }
     }
-
-    file { 'libgplcompression.so.0.0.0':
-      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0.0.0",
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      source  => "puppet:///hdfs/hadoop-lzo/native-${lzo_version}/Linux-amd64-64/libgplcompression.so.0.0.0",
-      require => Package['hadoop-common'],
-    }
-
-    file {'libgplcompression.so.0':
-      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0",
-      ensure  => symlink,
-      target  => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0.0.0",
-      require => Package['hadoop-common'],
-    }
-
-    file {'libgplcompression.so':
-      path    => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so",
-      ensure  => symlink,
-      target  => "${lib_path}/lib/native/Linux-amd64-64/libgplcompression.so.0.0.0",
-      require => Package['hadoop-common'],
-    }
-  }
-  #creating data directories for data nodes. $name opens a list of directory names
-  define cdh3::hadoop::datadirs() {
-    file { ${::name}: # This had quotes around the variable, not sure it is needed.
-    ensure => directory,
-    path   => ${::name},
-    owner  => hdfs,
-    group  => hadoop,
-    mode   => 700,
-    }
-    exec {"mkdir -p ${::name}":
-      refreshonly => true,
-      subscribe   => File[${::name}],
-    }
-  }
-
-  #creating mapred temp directories on data nodes. $name opens a list of directory names
-  define cdh3::hadoop::mapreddirs() {
-    file {"${name}":
-      ensure => directory,
-      path   => "${name}",
-      owner  => mapred,
-      group  => hadoop,
-      mode   => '0755',
-    }
-    exec {"mkdir -p ${name}":
-      refreshonly => true,
-      subscribe   => File["${name}"],
-    }
-  }
