@@ -1,4 +1,4 @@
-name    'jefffield-cdh3'
+name    'cdh3'
 version '0.0.1'
 source 'UNKNOWN'
 author 'jefffield'

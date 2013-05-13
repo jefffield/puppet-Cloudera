@@ -4,8 +4,9 @@ class cdh3::hbase {
   include cdh3::hadoop
 
   package {'hbase-common':
-    ensure => installed,
-    name   => 'hadoop-hbase',
+    ensure  => installed,
+    name    => 'hadoop-hbase',
+    require => Package['jdk'],
   }
 
   file { 'hbase-hadoop-metrics.properties':
@@ -77,53 +78,3 @@ class cdh3::hbase {
   }
 }
 
-class cdh3::hbase::regionserver inherits cdh3::hbase {
-  package {'hbase-regionserver':
-    ensure => installed,
-    name   => 'hadoop-hbase-regionserver',
-  }
-  service {'hbase-regionserver':
-    ensure     => running,
-    name       => 'hadoop-hbase-regionserver',
-    hasstatus  => true,  # status does not work in B3
-    hasrestart => true,
-    require    => Package ['hbase-regionserver'],
-  }
-}
-
-class cdh3::hbase::thriftserver inherits cdh3::hbase {
-  package {'hbase-thriftserver':
-    ensure => installed,
-    name   => 'hadoop-hbase-thrift',
-  }
-  service {'hbase-thriftserver':
-    ensure     => running,
-    name       => 'hadoop-hbase-thrift',
-    hasstatus  => true, #status does not work for thrift server
-    hasrestart => true,
-    require    => Package ['hbase-thriftserver'],
-  }
-}
-
-class cdh3::hbase::masterserver inherits cdh3::hbase {
-
-  package {'hadoop-hbase-master':
-    ensure => installed,
-    name   => 'hadoop-hbase-master',
-  }
-  service {'hadoop-hbase-master':
-    ensure     => running,
-    name       => 'hadoop-hbase-master',
-    hasstatus  => true,
-    hasrestart => true,
-    require    => Package ['hadoop-hbase-master'],
-  }
-  #file { 'regionservers':
-  #  path    => "${hbase_conf_path}/regionservers",
-  #  owner   => root,
-  #  group   => root,
-  #  mode    => 664,
-  #  source  => 'puppet:///hbase/regionservers',
-  #  require => Package['hadoop-hbase-master'],
-  #}
-  }

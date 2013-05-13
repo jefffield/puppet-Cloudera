@@ -1,7 +1,8 @@
 class cdh3::hbase::regionserver inherits cdh3::hbase {
   package {'hbase-regionserver':
-    ensure => installed,
-    name   => 'hadoop-hbase-regionserver',
+    ensure  => installed,
+    name    => 'hadoop-hbase-regionserver',
+    require => Package['jdk'],
   }
   service {'hbase-regionserver':
     ensure     => running,

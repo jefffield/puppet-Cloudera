@@ -1,6 +1,7 @@
 class cdh3::zookeeper::server inherits cdh3::zookeeper {
   package { 'hadoop-zookeeper-server':
-    ensure => installed,
+    ensure  => installed,
+    require => Package['jdk'],
   }
 
   service { 'hadoop-zookeeper':

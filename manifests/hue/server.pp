@@ -3,8 +3,9 @@ class cdh3::hue::server {
   $mysql_driver_version='5.1.14'
 
   package { 'hue':
-    ensure => installed,
-    name   => 'hue',
+    ensure  => installed,
+    name    => 'hue',
+    require => Package['jdk'],
   }
   file { 'hue.ini':
     mode    => '0755',

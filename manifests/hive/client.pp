@@ -5,7 +5,8 @@ class cdh3::hive::client {
   $mysql_driver_version='5.1.14'
 
   package { 'hadoop-hive':
-    ensure => installed,
+    ensure  => installed,
+    require => Package['jdk'],
   }
   file {'hive-site.xml':
     mode    => '0755',

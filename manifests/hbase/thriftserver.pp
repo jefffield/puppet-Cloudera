@@ -1,7 +1,8 @@
 class cdh3::hbase::thriftserver inherits cdh3::hbase {
   package {'hbase-thriftserver':
-    ensure => installed,
-    name   => 'hadoop-hbase-thrift',
+    ensure  => installed,
+    name    => 'hadoop-hbase-thrift',
+    require => Package['jdk'],
   }
   service {'hbase-thriftserver':
     ensure     => running,

@@ -1,8 +1,9 @@
 #Hadoop datanode class
 class cdh3::hadoop::datanode inherits cdh3::hadoop {
   package {'hadoop-0.20-datanode':
-    ensure => installed,
-    name   => 'hadoop-0.20-datanode',
+    ensure  => installed,
+    name    => 'hadoop-0.20-datanode',
+    require => Package['jdk'],
   }
 
   service { 'hadoop-datanode':

@@ -1,8 +1,9 @@
 #hadoop tasktracker class
 class cdh3::hadoop::tasktracker inherits cdh3::hadoop {
   package {'hadoop-0.20-tasktracker':
-    ensure => installed,
-    name   => 'hadoop-0.20-tasktracker',
+    ensure  => installed,
+    name    => 'hadoop-0.20-tasktracker',
+    require => Package['jdk'],
   }
   service { 'hadoop-tasktracker':
     ensure     => running,

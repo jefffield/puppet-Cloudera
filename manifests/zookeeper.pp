@@ -3,7 +3,8 @@
 class cdh3::zookeeper {
 
   package { 'hadoop-zookeeper':
-    ensure => installed,
+    ensure  => installed,
+    require => Package['jdk'],
   }
 
   file { 'zoo.cfg':

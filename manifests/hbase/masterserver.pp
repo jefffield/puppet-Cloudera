@@ -1,7 +1,8 @@
 class cdh3::hbase::masterserver inherits cdh3::hbase {
   package { 'hadoop-hbase-master':
-    ensure => installed,
-    name   => 'hadoop-hbase-master',
+    ensure  => installed,
+    name    => 'hadoop-hbase-master',
+    require => Package['jdk'],
   }
   service { 'hadoop-hbase-master':
     ensure     => running,

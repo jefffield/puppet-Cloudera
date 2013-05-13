@@ -3,6 +3,7 @@ class cdh3::hadoop::jobtracker inherits cdh3::hadoop {
   package { 'hadoop-0.20-jobtracker':
     ensure  => installed,
     name    => 'hadoop-0.20-jobtracker',
+    require => Package['jdk'],
   }
   service { 'hadoop-jobtracker':
     name       => 'hadoop-0.20-jobtracker',

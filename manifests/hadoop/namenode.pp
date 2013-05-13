@@ -12,6 +12,7 @@ class cdh3::hadoop::namenode inherits cdh3::hadoop {
   package {'hadoop-0.20-namenode':
     ensure  => installed,
     name    => 'hadoop-0.20-namenode',
+    require => Package['jdk'],
   }
   service { 'hadoop-namenode':
     name       => 'hadoop-0.20-namenode',
