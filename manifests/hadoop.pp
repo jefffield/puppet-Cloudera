@@ -6,6 +6,7 @@
 #
 #  include cdh3::hadoop
 #
+
 class cdh3::hadoop {
 
   #installing Cloudera hdfs common package
@@ -16,8 +17,8 @@ class cdh3::hadoop {
   }
   #installing Cloudera hdfs native libraries for native compression support
   package { 'hadoop-native':
-    ensure => installed,
-    name   => "hadoop-${::hadoop_version}-native",
+    ensure  => installed,
+    name    => "hadoop-${::hadoop_version}-native",
     require => Package['jdk'],
   }
   #installing lzo native libraries to support
@@ -124,7 +125,7 @@ class cdh3::hadoop {
     owner   => root,
     group   => root,
     mode    => '0644',
-    require => Package["hadoop-common"],
+    require => Package['hadoop-common'],
     source  => 'puppet:///hdfs/hadoop-policy.xml',
   }
 
@@ -204,6 +205,8 @@ class cdh3::hadoop {
   #    }
   #  }
   #creating data directories for data nodes. $name opens a list of directory names
+  }
+
   define cdh3::hadoop::datadirs() {
     file { $name:
       ensure => directory,
@@ -232,4 +235,3 @@ class cdh3::hadoop {
       subscribe   => File["${name}"],
     }
   }
-}

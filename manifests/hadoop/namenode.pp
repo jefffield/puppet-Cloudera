@@ -1,5 +1,5 @@
 #hadoop namenode class
-class cdh3::hadoop::namenode inherits cdh3::hadoop {
+class cdh3::hadoop::namenode inherits ::cdh3::hadoop {
   file {'rack.script':
     path   => "${::conf_path}/rack.script",
     owner  => root,
